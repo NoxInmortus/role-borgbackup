@@ -1,0 +1,25 @@
+---
+- name: Create /etc/borgmatic directory
+  file:
+    state: 'directory'
+    path: '/etc/borgmatic'
+    owner: '{{ borg_user }}'
+    group: '{{ borg_user }}'
+    mode: '0700'
+
+- name: Copy borgmatic exclude file
+  template:
+    src: '{{ borg_exclude_template }}'
+    dest: '/etc/borgmatic/{{ borg_exclude_template|basename }}'
+    owner: '{{ borg_user }}'
+    group: '{{ borg_user }}'
+    mode: '0600'
+
+- name: Copy borgmatic config file
+  template:
+    src: '{{ borg_conf_template }}'
+    dest: '/etc/borgmatic/{{ borg_conf_template|basename }}'
+    owner: '{{ borg_user }}'
+    group: '{{ borg_user }}'
+    mode: '0600'
+    validate: validate-borgmatic-config -c %s

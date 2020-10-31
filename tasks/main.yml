@@ -1,0 +1,24 @@
+---
+- name: assert variables
+  assert:
+    that: borg_encryption_passphrase is defined
+
+- include_tasks: install.yml
+  tags:
+    - borg
+    - borg_install
+
+- include_tasks: init.yml
+  tags:
+    - borg
+    - borg_init
+
+- include_tasks: config.yml
+  tags:
+    - borg
+    - borg_config
+
+- include_tasks: extra.yml
+  tags:
+    - borg
+    - borg_extra

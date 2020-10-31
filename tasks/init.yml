@@ -1,0 +1,14 @@
+---
+- name: Init local borg repository
+  shell: 'BORG_PASSPHRASE={{ borg_encryption_passphrase }} borg init {{ borg_local_repository }} -e {{ borg_encryption_type }}'
+  args:
+    creates: "{{ borg_local_repository }}/data"
+  no_log: "{{ no_log|default('true') }}"
+  when: not borg_no_local_repository
+
+- name: Init remote borg repository
+  shell: 'sudo -u {{ borg_user }} BORG_PASSPHRASE={{ borg_encryption_passphrase }} borg init {{ borg_remote_repository }} -e {{ borg_encryption_type }}'
+  no_log: "{{ no_log|default('true') }}"
+  when:
+    - borg_remote_repository is defined
+    - borg_init_remote_repository

@@ -1,0 +1,21 @@
+---
+- name: Setup apt pref
+  copy:
+    dest: /etc/apt/preferences.d/borgbackup.pref
+    content: |
+      # Ansible managed
+      Package: borgbackup
+      Pin: release a={{ ansible_distribution_release|lower }}-backports
+      Pin-Priority: 990
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Install main packages
+  package:
+    name: "{{ borg_packages }}"
+    state: latest
+
+- name: Install pip3 packages
+  pip:
+    name: "{{ borg_packages_pip }}"
+    state: latest
+    executable: pip3

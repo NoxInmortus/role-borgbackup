@@ -1,0 +1,49 @@
+---
+- name: Set up borg cron job
+  cron:
+    name: 'Borgbackup'
+    cron_file: borgbackup
+    user: "{{ borg_user }}"
+    hour: '{{ borg_cron.hour }}'
+    minute: '{{ borg_cron.minute }}'
+    day: "{{ borg_cron.day }}"
+    weekday: "{{ borg_cron.weekday }}"
+    month: "{{ borg_cron.month }}"
+    job: >
+      PATH=$PATH:/usr/local/bin
+      nice -n {{ borg_cron_nice }}
+      ionice -c {{ borg_cron_ionice }}
+      borgmatic {{ borg_cron_action }} --log-file {{ borg_cron_log }} --log-file-verbosity 2 -c /etc/borgmatic/config.yaml >{{ borg_cron_log }} 2>&1
+  when: borg_cron_enable
+
+- name: Create borg_cron_log file
+  file:
+    state: touch
+    modification_time: preserve
+    access_time: preserve
+    path: '{{ borg_cron_log }}'
+    owner: '{{ borg_user }}'
+    group: '{{ borg_user }}'
+    mode: '0600'
+  when: borg_cron_enable
+
+- name: Copy s3-synchronize.sh scripts
+  copy:
+    src: ../files/s3-synchronize.sh
+    dest: /usr/local/bin/s3-synchronize.sh
+    mode: '0755'
+  when: borg_scripts
+
+- name: Setup logrotate
+  copy:
+    dest: /etc/logrotate.d/borg
+    content: |
+     {{ borg_cron_log }} {
+     daily
+     rotate 7
+     missingok
+     notifempty
+     compress
+     delaycompress
+     }
+  when: borg_logrotate

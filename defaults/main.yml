@@ -1,0 +1,75 @@
+---
+borg_packages:
+- python3
+- python3-pip
+- borgbackup
+borg_packages_pip:
+- borgmatic
+borg_conf_template: config.yaml
+borg_exclude_template: excludes
+borg_user: root
+
+# Borgmatic repository
+borg_local_repository: /var/backups/borg
+borg_init_remote_repository: false
+borg_no_local_repository: false
+borg_encryption_type: 'repokey-blake2'
+
+# do not add /tmp !!! borgmatic uses /tmp !!
+borg_excludes_default:
+- '/var/tmp'
+- '*.pyc'
+- '/home/*/.cache'
+
+# Borgmatic configuration file
+borg_backup_dirs: []
+borg_conf_umask: '0077'
+borg_conf_location:
+  one_file_system: 'false'
+  files_cache: ctime,size,inode
+  exclude_from: ['/etc/borgmatic/excludes']
+  exclude_caches: 'true'
+  exclude_if_present: .nobackup
+  borgmatic_source_directory: /tmp/borgmatic
+borg_conf_storage:
+  encryption_passphrase: '{{ borg_encryption_passphrase }}'
+  compression: 'lz4'
+  remote_rate_limit: '5000'
+  umask: '{{ borg_conf_umask }}'
+  lock_wait: '5'
+  archive_name_format: "'{hostname}-{now}'"
+  relocated_repo_access_is_ok: 'true'
+borg_conf_retention_policy:
+  keep_within: '2d'
+  keep_daily: 7
+  keep_weekly: 4
+  keep_monthly: 1
+  keep_yearly: 1
+  prefix: "'{hostname}-'"
+borg_conf_consistency:
+  prefix: "'{hostname}-'"
+  check_last: 1
+  checks: ['repository','extract','data']
+
+borg_before_backup_commands: []
+borg_after_backup_commands: []
+borg_failure_commands: []
+borg_before_everything_commands: []
+borg_after_everything_commands: []
+
+# Borgmatic cron variables
+borg_cron_enable: true
+borg_cron_action: create
+borg_cron_nice: 19
+borg_cron_ionice: 3
+borg_cron_log: /var/log/borg.log
+borg_cron:
+  hour: 23
+  minute: 0
+  day: '*'
+  weekday: '*'
+  month: '*'
+
+# Extras
+borg_logrotate: true
+borg_scripts: true

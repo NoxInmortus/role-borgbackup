@@ -1,0 +1,43 @@
+# ansible_managed /!\
+location:
+    source_directories: [{% if borg_backup_dirs|length > 0 %}'{{ borg_backup_dirs|join("','") }}'{% endif %}]
+    repositories:
+{%+ if not borg_no_local_repository %}        - {{ borg_local_repository }}{% endif %}
+
+{%+ if borg_remote_repository is defined %}        - {{ borg_remote_repository }}{% endif %}
+
+{%+ for key,value in borg_conf_location.items()|sort %}
+    {{ key }}: {{ value }}
+{% endfor %}
+
+storage:
+{%+ for key,value in borg_conf_storage.items()|sort %}
+    {{ key }}: {{ value }}
+{% endfor %}
+
+retention:
+{%+ for key,value in borg_conf_retention_policy.items()|sort %}
+    {{ key }}: {{ value }}
+{% endfor %}
+
+consistency:
+{%+ for key,value in borg_conf_consistency.items()|sort %}
+    {{ key }}: {{ value }}
+{% endfor %}
+
+hooks:
+    umask: {{ borg_conf_umask }}
+    before_backup: [{% if borg_before_backup_commands|length > 0 %}'{{ borg_before_backup_commands|join("','") }}'{% endif %}]
+    after_backup: [{% if borg_after_backup_commands|length > 0 %}'{{ borg_after_backup_commands|join("','") }}'{% endif %}]
+    on_error: [{% if borg_failure_commands|length > 0 %}'{{ borg_failure_commands|join(",") }}'{% endif %}]
+    before_everything: [{% if borg_before_everything_commands|length > 0 %}'{{ borg_before_everything_commands|join(",") }}'{% endif %}]
+    after_everything: [{% if borg_after_everything_commands|length > 0 %}'{{ borg_after_everything_commands|join(",") }}'{% endif %}]
+
+{% if borg_mysqldump is defined %}
+    mysql_databases:
+{% for db in borg_mysqldump|default([]) %}
+{% for key, value in db.items()|sort %}
+        {% if loop.first %}- {% else %}  {% endif %}{{ key }}: {{ value }}
+{% endfor %}
+{% endfor %}
+{% endif %}
