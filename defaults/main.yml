@@ -27,7 +27,7 @@ borg_conf_umask: '0077'
 borg_conf_location:
   one_file_system: 'false'
   files_cache: ctime,size,inode
-  exclude_from: ['/etc/borgmatic/excludes']
+  exclude_from: "['/etc/borgmatic/excludes']"
   exclude_caches: 'true'
   exclude_if_present: .nobackup
   borgmatic_source_directory: /tmp/borgmatic
@@ -49,7 +49,7 @@ borg_conf_retention_policy:
 borg_conf_consistency:
   prefix: "'{hostname}-'"
   check_last: 1
-  checks: ['repository','extract','data']
+  checks: "['repository','extract','data']"
 
 borg_before_backup_commands: []
 borg_after_backup_commands: []

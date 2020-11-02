@@ -19,7 +19,7 @@ Set up encrypted, compressed and deduplicated backups using [Borgbackup](https:/
 - Gitlab-CI
 
 ### Requirements
-- Ansible >= 2.4
+- Ansible >= 2.7
 
 ### Compatibility
   ![Debian](https://img.shields.io/badge/Debian-Buster-blue.svg)
