@@ -23,8 +23,9 @@ Set up encrypted, compressed and deduplicated backups using [Borgbackup](https:/
 
 ### Compatibility
   ![Debian](https://img.shields.io/badge/Debian-Buster-blue.svg)
+  ![Debian](https://img.shields.io/badge/Debian-Stretch-blue.svg)
 
-This role has been tested only on Debian Buster but it should be working on every GNU/Linux distribution.
+This role has been tested only on Debian Buster & Stretch, but it should be working on every GNU/Linux distribution.
 
 ## Usage
 ### Variables
@@ -61,7 +62,7 @@ See default [variables](defaults/main.yml).
 |borg_cron_enable|BOOL|NO|`true`|Enable cron job|
 |borg_cron_action|STRING|NO|`create`|Default borgmatic main parameter for cronjob|
 |borg_cron_nice|INT|NO|`19`|Nice parameter for cron job|
-|borg_cron_ionice_class|INT|NO|`3`|Ionice parameter for cron job|
+|borg_cron_ionice|INT|NO|`3`|Ionice parameter for cron job|
 |borg_cron_log|STRING|NO|`/var/log/borg.log`|Borg log file path|
 |borg_cron|DICT|NO|See defaults|Borg cron job startup|
 |borg_logrotate|BOOL|NO|`true`|Setup default Borg logrotate conf file|
