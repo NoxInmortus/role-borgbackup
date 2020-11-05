@@ -59,6 +59,12 @@ See default [variables](defaults/main.yml).
 |borg_failure_commands|LIST|NO|NONE|Failed backup commands|
 |borg_before_everything_commands|LIST|NO|NONE|Before any action commands|
 |borg_after_everything_commands|LIST|NO|NONE|After any action commands|
+|borg_before_check_commands|LIST|NO|NONE|Before check commands|
+|borg_after_check_commands|LIST|NO|NONE|After check commands|
+|borg_before_prune_commands|LIST|NO|NONE|Before prune commands|
+|borg_after_prune_commands|LIST|NO|NONE|After prune commands|
+|borg_before_extract_commands|LIST|NO|NONE|Before extract commands|
+|borg_after_extract_commands|LIST|NO|NONE|After extract commands|
 |borg_cron_enable|BOOL|NO|`true`|Enable cron job|
 |borg_cron_action|STRING|NO|`create`|Default borgmatic main parameter for cronjob|
 |borg_cron_nice|INT|NO|`19`|Nice parameter for cron job|

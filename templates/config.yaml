@@ -32,6 +32,12 @@ hooks:
     on_error: [{% if borg_failure_commands|length > 0 %}'{{ borg_failure_commands|join(",") }}'{% endif %}]
     before_everything: [{% if borg_before_everything_commands|length > 0 %}'{{ borg_before_everything_commands|join(",") }}'{% endif %}]
     after_everything: [{% if borg_after_everything_commands|length > 0 %}'{{ borg_after_everything_commands|join(",") }}'{% endif %}]
+    before_check: [{% if borg_before_check_commands|length > 0 %}'{{ borg_before_check_commands|join(",") }}'{% endif %}]
+    after_check: [{% if borg_after_check_commands|length > 0 %}'{{ borg_after_check_commands|join(",") }}'{% endif %}]
+    before_prune: [{% if borg_before_prune_commands|length > 0 %}'{{ borg_before_prune_commands|join(",") }}'{% endif %}]
+    after_prune: [{% if borg_after_prune_commands|length > 0 %}'{{ borg_after_prune_commands|join(",") }}'{% endif %}]
+    before_extract: [{% if borg_before_extract_commands|length > 0 %}'{{ borg_before_extract_commands|join(",") }}'{% endif %}]
+    after_extract: [{% if borg_after_extract_commands|length > 0 %}'{{ borg_after_extract_commands|join(",") }}'{% endif %}]
 
 {% if borg_mysqldump is defined %}
     mysql_databases:
