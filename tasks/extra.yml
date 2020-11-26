@@ -18,7 +18,7 @@
 
 - name: Set up borg cron job
   cron:
-    name: 'Borgbackup'
+    name: 'Borgbackup Prune'
     cron_file: borgbackup
     user: "{{ borg_user }}"
     hour: '{{ borg_cron_prune.hour }}'
