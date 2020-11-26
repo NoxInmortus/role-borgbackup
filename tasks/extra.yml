@@ -16,6 +16,25 @@
       borgmatic {{ borg_cron_action }} --log-file {{ borg_cron_log }} --log-file-verbosity 2 -c /etc/borgmatic/config.yaml >{{ borg_cron_log }} 2>&1
   when: borg_cron_enable
 
+- name: Set up borg cron job
+  cron:
+    name: 'Borgbackup'
+    cron_file: borgbackup
+    user: "{{ borg_user }}"
+    hour: '{{ borg_cron_prune.hour }}'
+    minute: '{{ borg_cron_prune.minute }}'
+    day: "{{ borg_cron_prune.day }}"
+    weekday: "{{ borg_cron_prune.weekday }}"
+    month: "{{ borg_cron_prune.month }}"
+    job: >
+      PATH=$PATH:/usr/local/bin
+      nice -n {{ borg_cron_nice }}
+      ionice -c {{ borg_cron_ionice }}
+      borgmatic prune --log-file {{ borg_cron_log }} --log-file-verbosity 2 -c /etc/borgmatic/config.yaml >{{ borg_cron_log }} 2>&1
+  when:
+    - borg_cron_enable
+    - borg_cron_action != 'prune'
+
 - name: Create borg_cron_log file
   file:
     state: touch

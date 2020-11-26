@@ -75,6 +75,12 @@ borg_cron:
   day: '*'
   weekday: '*'
   month: '*'
+borg_cron_prune:
+  hour: 21
+  minute: 0
+  day: '*'
+  weekday: '*'
+  month: '*'
 
 # Extras
 borg_logrotate: true

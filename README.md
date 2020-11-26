@@ -71,6 +71,7 @@ See default [variables](defaults/main.yml).
 |borg_cron_ionice|INT|NO|`3`|Ionice parameter for cron job|
 |borg_cron_log|STRING|NO|`/var/log/borg.log`|Borg log file path|
 |borg_cron|DICT|NO|See defaults|Borg cron job startup|
+|borg_cron_prune|DICT|NO|See defaults|Borg prune cron job startup|
 |borg_logrotate|BOOL|NO|`true`|Setup default Borg logrotate conf file|
 |borg_scripts|BOOL|NO|`true`|Add extra scripts|
 
