@@ -13,10 +13,10 @@
       PATH=$PATH:/usr/local/bin
       nice -n {{ borg_cron_nice }}
       ionice -c {{ borg_cron_ionice }}
-      borgmatic {{ borg_cron_action }} --log-file {{ borg_cron_log }} --log-file-verbosity 2 -c /etc/borgmatic/config.yaml >{{ borg_cron_log }} 2>&1
+      borgmatic {{ borg_cron_action }} --log-file {{ borg_cron_log }} --log-file-verbosity 2 -c /etc/borgmatic/config.yaml >>{{ borg_cron_log }} 2>&1
   when: borg_cron_enable
 
-- name: Set up borg cron job
+- name: Set up borg prune cron job
   cron:
     name: 'Borgbackup Prune'
     cron_file: borgbackup
@@ -30,7 +30,7 @@
       PATH=$PATH:/usr/local/bin
       nice -n {{ borg_cron_nice }}
       ionice -c {{ borg_cron_ionice }}
-      borgmatic prune --log-file {{ borg_cron_log }} --log-file-verbosity 2 -c /etc/borgmatic/config.yaml >{{ borg_cron_log }} 2>&1
+      borgmatic prune --log-file {{ borg_cron_log }} --log-file-verbosity 2 -c /etc/borgmatic/config.yaml >>{{ borg_cron_log }} 2>&1
   when:
     - borg_cron_enable
     - borg_cron_action != 'prune'
